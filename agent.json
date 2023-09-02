@@ -1,0 +1,24 @@
+{
+  "module": "setTheoryModule",
+  "agent":
+  {
+    "actionClass": "action_intersect_sets",
+    "name": "IntersectSetsAgent",
+    "keynodes": "SetTheoryKeynodes",
+    "parameters":
+    [
+      {
+        "relation": "scAgentsCommon::CoreKeynodes::rrel_1",
+        "name": "set1"
+      },
+      {
+        "relation": "scAgentsCommon::CoreKeynodes::rrel_2",
+        "name": "set2"
+      }
+    ]
+  },
+  "manager":
+  {
+    "name": "IntersectSetsManager"
+  }
+}
