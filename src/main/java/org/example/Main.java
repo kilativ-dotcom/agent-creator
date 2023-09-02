@@ -3,16 +3,16 @@ package org.example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
-import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) {
-        File file = new File("agent.json");
+        File file = new File((args.length > 0) ? args[0] : "agent.json");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Config config = objectMapper.readValue(file, Config.class);
             File outputDir = new File(config.getModule() + File.separator);
             outputDir.mkdirs();
+            System.out.println("outputDir = " + outputDir.getAbsolutePath());
             System.out.println("config = " + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(config));
             writeToFile(new File(outputDir, config.getAgent().getName() + ".hpp"), config.getAgentHPP());
             writeToFile(new File(outputDir, config.getAgent().getName() + ".cpp"), config.getAgentCPP());
