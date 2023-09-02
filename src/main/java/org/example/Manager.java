@@ -52,12 +52,24 @@ public class Manager {
             "\n" +
             "ScAddrVector %1$s::manage(ScAddrVector const & processParameters) const\n" +
             "{\n" +
+            "%3$s" +
             "  return {};\n" +
             "}\n" +
             "}  // namespace %2$s\n";
 
+    private static final String parameterBase = "  ScAddr const & %1$s = processParameters[%2$s];\n";
+
+    private String createParametersInitialization() {
+        StringBuilder stringBuilder = new StringBuilder();
+        int parameterIndex = 0;
+        for (Parameter parameter : config.getAgent().getParameters()) {
+            stringBuilder.append(String.format(parameterBase, parameter.getName(), parameterIndex++));
+        }
+        return stringBuilder.toString();
+    }
+
     @JsonIgnore
     public String getCPP() {
-        return String.format(baseCPP, name, config.getModule());
+        return String.format(baseCPP, name, config.getModule(), createParametersInitialization());
     }
 }
