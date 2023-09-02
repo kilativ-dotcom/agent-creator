@@ -131,7 +131,7 @@ public class Agent {
 
     private static final String baseManagerCall =
             "\n" +
-            "    auto manager = make_unique<%1$s>($m_memoryCtx);\n" +
+            "    auto manager = make_unique<%1$s>(&m_memoryCtx);\n" +
             "    ScAddrVector const & answerElements = manager->manage({%2$s});\n";
 
     private String createParametersPart() {
