@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -eo pipefail
+java -jar "/app/app.jar" "/app/agent.json"
