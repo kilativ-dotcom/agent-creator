@@ -1,7 +1,7 @@
 this is a script that creates .cpp and .hpp files for your agent and manager
 
 ## CLONE
-to clone this project go to desired directory on your computer and run in terminal run
+to clone this project go to desired directory on your computer and run in terminal
 ```bash
 git clone git@github.com:kilativ-dotcom/agent-creator.git
 ```
