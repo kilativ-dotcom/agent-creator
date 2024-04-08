@@ -95,21 +95,21 @@ public class Agent {
             "  {\n" +
             "    if (checkActionClass(actionNode) == SC_FALSE)\n" +
             "      return SC_RESULT_OK;\n" +
-            "    SC_LOG_DEBUG(\"%3$s started\");\n" +
+            "    SC_LOG_INFO(\"%3$s started\");\n" +
             "\n"+
             "%6$s\n" +
             "    if (answerElements.empty())\n" +
             "      SC_THROW_EXCEPTION(utils::ScException, \"%3$s: answer is empty\");\n" +
             "\n" +
             "    utils::AgentUtils::finishAgentWork(&m_memoryCtx, actionNode, answerElements, true);\n" +
-            "    SC_LOG_DEBUG(\"%3$s finished\");\n" +
+            "    SC_LOG_INFO(\"%3$s finished\");\n" +
             "    return SC_RESULT_OK;\n" +
             "  }\n" +
             "  catch (utils::ScException const & exception)\n" +
             "  {\n" +
             "    SC_LOG_ERROR(exception.Description());\n" +
             "    utils::AgentUtils::finishAgentWork(&m_memoryCtx, actionNode, false);\n" +
-            "    SC_LOG_DEBUG(\"%3$s finished with error\");\n" +
+            "    SC_LOG_INFO(\"%3$s finished with error\");\n" +
             "    return SC_RESULT_ERROR;\n" +
             "  }\n" +
             "}\n" +
