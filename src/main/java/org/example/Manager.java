@@ -57,13 +57,16 @@ public class Manager {
             "}\n" +
             "}  // namespace %2$s\n";
 
-    private static final String parameterBase = "  ScAddr const & %1$s = processParameters[%2$s];\n";
+    private static final String parameterBase =
+            "  ScAddr const & %1$s = processParameters[%2$s];\n" +
+            "  if (%1$s.IsValid() == SC_FALSE)\n" +
+            "    SC_THROW_EXCEPTION(utils::ExceptionInvalidParams, \"%3$s: %1$s is not valid\");\n";
 
     private String createParametersInitialization() {
         StringBuilder stringBuilder = new StringBuilder();
         int parameterIndex = 0;
         for (Parameter parameter : config.getAgent().getParameters()) {
-            stringBuilder.append(String.format(parameterBase, parameter.getName(), parameterIndex++));
+            stringBuilder.append(String.format(parameterBase, parameter.getName(), parameterIndex++, name));
         }
         return stringBuilder.toString();
     }

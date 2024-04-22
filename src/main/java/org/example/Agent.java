@@ -127,11 +127,11 @@ public class Agent {
             "    ScAddr const & %1$s =\n" +
             "        utils::IteratorUtils::getAnyByOutRelation(&m_memoryCtx, actionNode, %2$s);\n" +
             "    if (%1$s.IsValid() == SC_FALSE)\n" +
-            "      SC_THROW_EXCEPTION(utils::ExceptionItemNotFound, \"%3$s: %1$s is not valid\");\n";
+            "      SC_THROW_EXCEPTION(utils::ExceptionInvalidParams, \"%3$s: %1$s is not valid\");\n";
 
     private static final String baseManagerCall =
             "\n" +
-            "    auto manager = std::make_unique<%1$s>(&m_memoryCtx);\n" +
+            "    auto const & manager = std::make_unique<%1$s>(&m_memoryCtx);\n" +
             "    ScAddrVector const & answerElements = manager->manage({%2$s});\n";
 
     private String createParametersPart() {
