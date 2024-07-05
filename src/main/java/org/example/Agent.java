@@ -2,6 +2,7 @@ package org.example;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,7 @@ public class Agent {
     private String actionClass;
     private String keynodes;
     private String name;
-    private List<Parameter> parameters;
+    private List<Parameter> parameters = new ArrayList<>();
     private Config config;
 
     public void setConfig(Config config) {
@@ -96,7 +97,6 @@ public class Agent {
             "    if (checkActionClass(actionNode) == SC_FALSE)\n" +
             "      return SC_RESULT_OK;\n" +
             "    SC_LOG_INFO(\"%3$s started\");\n" +
-            "\n"+
             "%6$s\n" +
             "    if (answerElements.empty())\n" +
             "      SC_THROW_EXCEPTION(utils::ScException, \"%3$s: answer is empty\");\n" +
