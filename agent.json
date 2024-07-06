@@ -1,5 +1,11 @@
 {
-  "module": "setTheoryModule",
+  "module": {
+    "name": "setTheoryModule",
+    "actionDeactivationChecker": {
+      "file": "utils/ActionUtils.hpp",
+      "name": "ActionUtils::isActionDeactivated"
+    }
+  },
   "agent":
   {
     "actionClass": "action_intersect_sets",
@@ -17,8 +23,7 @@
       }
     ]
   },
-  "manager":
-  {
-    "name": "IntersectSetsManager"
-  }
+  "createTest": true,
+  "createKB": true,
+  "createDocs": true
 }

@@ -34,10 +34,14 @@ public class Manager {
             "};\n" +
             "\n" +
             "}  // namespace %1$s\n";
+    /*
+    1 - namespace
+    2 - Manager name
+     */
 
     @JsonIgnore
     public String getHPP() {
-        return String.format(baseHPP, config.getModule(), name);
+        return String.format(baseHPP, config.getModule().getNamespace(), name);
     }
 
     private static final String baseCPP =
@@ -56,11 +60,21 @@ public class Manager {
             "  return {};\n" +
             "}\n" +
             "}  // namespace %2$s\n";
+    /*
+    1 - Manager name
+    2 - namespace
+    3 - parameters part
+     */
 
     private static final String parameterBase =
             "  ScAddr const & %1$s = processParameters[%2$s];\n" +
             "  if (%1$s.IsValid() == SC_FALSE)\n" +
             "    SC_THROW_EXCEPTION(utils::ExceptionInvalidParams, \"%3$s: %1$s is not valid\");\n";
+    /*
+    1 - Parameter name
+    2 - Parameter index
+    3 - Manager name
+     */
 
     private String createParametersInitialization() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -73,6 +87,6 @@ public class Manager {
 
     @JsonIgnore
     public String getCPP() {
-        return String.format(baseCPP, name, config.getModule(), createParametersInitialization());
+        return String.format(baseCPP, name, config.getModule().getNamespace(), createParametersInitialization());
     }
 }

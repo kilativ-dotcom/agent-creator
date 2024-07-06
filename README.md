@@ -27,3 +27,15 @@ then in second terminal run command (replace setTheoryModule with module name yo
 docker cp agent-creator:setTheoryModule ./
 ```
 after executing command in second terminal you will have a copy of this module on your computer and you can type `exit` in first terminal or press `CTRL + D` to exit docker mode
+
+## CONFIG FILE
+
+by default, config file is located in project root and is named `agent.json`
+
+`module::actionDeactivationChecker` may be omitted if action deactivation check is not required, otherwise it should contain following fields:
+ - `file` - path that will be included inside module.cpp;
+ - `name` - method, that checks whether action is deactivated and that receives ScMemoryContext and ScAddr of action class.
+
+by default, `createTest`, `createKB`, `createDocs` are set to false
+
+agent may or may not have a manager

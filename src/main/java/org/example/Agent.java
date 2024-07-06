@@ -15,6 +15,9 @@ public class Agent {
 
     public void setConfig(Config config) {
         this.config = config;
+        if (config.getKeynodes() == null && keynodes != null) {
+            config.setKeynodes(new Keynodes(keynodes));
+        }
     }
 
     public String getActionClass() {
@@ -78,7 +81,7 @@ public class Agent {
 
     @JsonIgnore
     public String getHPP() {
-        return String.format(baseHPP, name, config.getModule());
+        return String.format(baseHPP, name, config.getModule().getNamespace());
     }
 
     private static final String baseCPP =
@@ -181,6 +184,6 @@ public class Agent {
     @JsonIgnore
     public String getCPP() {
         String managerIncludePrepared = config.getManager() == null ? "" : String.format(managerInclude, config.getManager().getName());
-        return String.format(baseCPP, keynodes, managerIncludePrepared, name, config.getModule(), actionClass, createParametersPart());
+        return String.format(baseCPP, keynodes, managerIncludePrepared, name, config.getModule().getNamespace(), actionClass, createParametersPart());
     }
 }
