@@ -16,8 +16,10 @@ public class Main {
             System.out.println("config = " + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(config));
             writeToFile(new File(outputDir, config.getAgent().getName() + ".hpp"), config.getAgentHPP());
             writeToFile(new File(outputDir, config.getAgent().getName() + ".cpp"), config.getAgentCPP());
-            writeToFile(new File(outputDir, config.getManager().getName() + ".hpp"), config.getManagerHPP());
-            writeToFile(new File(outputDir, config.getManager().getName() + ".cpp"), config.getManagerCPP());
+            if (config.getManager() != null) {
+                writeToFile(new File(outputDir, config.getManager().getName() + ".hpp"), config.getManagerHPP());
+                writeToFile(new File(outputDir, config.getManager().getName() + ".cpp"), config.getManagerCPP());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

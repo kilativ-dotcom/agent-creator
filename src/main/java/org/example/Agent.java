@@ -71,6 +71,10 @@ public class Agent {
         "};\n" +
         "\n" +
         "}  // namespace %2$s\n";
+    /*
+    1 - Agent name
+    2 - namespace
+     */
 
     @JsonIgnore
     public String getHPP() {
@@ -83,8 +87,7 @@ public class Agent {
             "\n" +
             "#include \"keynodes/%1$s.hpp\"\n" +
             "\n" +
-            "#include \"manager/%2$s.hpp\"\n" +
-            "\n" +
+            "%2$s" +
             "#include \"%3$s.hpp\"\n" +
             "\n" +
             "namespace %4$s\n" +
@@ -94,13 +97,10 @@ public class Agent {
             "  ScAddr const & actionNode = otherAddr;\n" +
             "  try\n" +
             "  {\n" +
-            "    if (checkActionClass(actionNode) == SC_FALSE)\n" +
+            "    if (!checkActionClass(actionNode))\n" +
             "      return SC_RESULT_OK;\n" +
             "    SC_LOG_INFO(\"%3$s started\");\n" +
             "%6$s\n" +
-            "    if (answerElements.empty())\n" +
-            "      SC_THROW_EXCEPTION(utils::ScException, \"%3$s: answer is empty\");\n" +
-            "\n" +
             "    utils::AgentUtils::finishAgentWork(&m_memoryCtx, actionNode, answerElements, true);\n" +
             "    SC_LOG_INFO(\"%3$s finished\");\n" +
             "    return SC_RESULT_OK;\n" +
@@ -121,6 +121,29 @@ public class Agent {
             "}\n" +
             "\n" +
             "}  // namespace %4$s\n";
+    /*
+    1 - Keynodes name
+    2 - Manager include
+    3 - Agent name
+    4 - namespace
+    5 - action class
+    6 - params and manager code
+     */
+
+    private static final String managerInclude =
+            "#include \"manager/%1$s.hpp\"\n" +
+            "\n";
+    /*
+    1 - Manager name
+     */
+
+    private static final String managerAnswerCheck =
+            "    if (answerElements.empty())\n" +
+            "      SC_THROW_EXCEPTION(utils::ScException, \"%1$s: answer is empty\");\n" +
+            "\n";
+    /*
+    1 - Agent name
+     */
 
     private static final String baseParameter =
             "\n" +
@@ -128,23 +151,36 @@ public class Agent {
             "        utils::IteratorUtils::getAnyByOutRelation(&m_memoryCtx, actionNode, %2$s);\n" +
             "    if (%1$s.IsValid() == SC_FALSE)\n" +
             "      SC_THROW_EXCEPTION(utils::ExceptionInvalidParams, \"%3$s: %1$s is not valid\");\n";
+    /*
+    1 - Parameter name
+    2 - Parameter role
+    3 - Agent name
+     */
 
     private static final String baseManagerCall =
             "\n" +
             "    auto const & manager = std::make_unique<%1$s>(&m_memoryCtx);\n" +
             "    ScAddrVector const & answerElements = manager->manage({%2$s});\n";
+    /*
+    1 - Manager name
+    2 - Parameters
+     */
 
     private String createParametersPart() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Parameter parameter : parameters) {
             stringBuilder.append(String.format(baseParameter, parameter.getName(), parameter.getRelation(), name));
         }
-        stringBuilder.append(String.format(baseManagerCall, config.getManager().getName(), parameters.stream().map(Parameter::getName).collect(Collectors.joining(", "))));
+        if (config.getManager() != null) {
+            stringBuilder.append(String.format(baseManagerCall, config.getManager().getName(), parameters.stream().map(Parameter::getName).collect(Collectors.joining(", "))));
+            stringBuilder.append(String.format(managerAnswerCheck, config.getManager().getName()));
+        }
         return stringBuilder.toString();
     }
 
     @JsonIgnore
     public String getCPP() {
-        return String.format(baseCPP, keynodes, config.getManager().getName(), name, config.getModule(), actionClass, createParametersPart());
+        String managerIncludePrepared = config.getManager() == null ? "" : String.format(managerInclude, config.getManager().getName());
+        return String.format(baseCPP, keynodes, managerIncludePrepared, name, config.getModule(), actionClass, createParametersPart());
     }
 }
