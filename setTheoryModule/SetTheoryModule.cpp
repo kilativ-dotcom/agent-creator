@@ -17,7 +17,7 @@ sc_result SetTheoryModule::InitializeImpl()
     return SC_RESULT_ERROR;
   }
 
-ScMemoryContext context;
+  ScMemoryContext context;
   if (ActionUtils::isActionDeactivated(&context, SetTheoryKeynodes::action_intersect_sets))
   {
     SC_LOG_WARNING("action_intersect_sets is deactivated");

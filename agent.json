@@ -23,6 +23,9 @@
       }
     ]
   },
+  "manager": {
+    "name": "IntersectSetsManager"
+  },
   "createTest": true,
   "createKB": true,
   "createDocs": true

@@ -3,6 +3,8 @@
 
 #include "keynodes/SetTheoryKeynodes.hpp"
 
+#include "manager/IntersectSetsManager.hpp"
+
 #include "IntersectSetsAgent.hpp"
 
 namespace setTheoryModule
@@ -25,6 +27,12 @@ SC_AGENT_IMPLEMENTATION(IntersectSetsAgent)
         utils::IteratorUtils::getAnyByOutRelation(&m_memoryCtx, actionNode, scAgentsCommon::CoreKeynodes::rrel_2);
     if (set2.IsValid() == SC_FALSE)
       SC_THROW_EXCEPTION(utils::ExceptionInvalidParams, "IntersectSetsAgent: set2 is not valid");
+
+    auto const & manager = std::make_unique<IntersectSetsManager>(&m_memoryCtx);
+    ScAddrVector const & answerElements = manager->manage({set1, set2});
+    if (answerElements.empty())
+      SC_THROW_EXCEPTION(utils::ScException, "IntersectSetsManager: answer is empty");
+
 
     utils::AgentUtils::finishAgentWork(&m_memoryCtx, actionNode, answerElements, true);
     SC_LOG_INFO("IntersectSetsAgent finished");

@@ -125,7 +125,7 @@ public class Module {
             "    return SC_RESULT_ERROR;\n" +
             "  }\n" +
             "\n" +
-            "ScMemoryContext context;\n" +
+            "  ScMemoryContext context;\n" +
             "  if (%4$s(&context, %1$s::%2$s))\n" +
             "  {\n" +
             "    SC_LOG_WARNING(\"%2$s is deactivated\");\n" +
